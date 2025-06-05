@@ -323,42 +323,55 @@ async function fetchProfileImages(username) {
     console.log('[fetchProfileImages] corpo do JSON recebido (search_users):', searchJson);
 
     // Agora verificamos se data.items existe e é array
-    const hasItemsArray = searchResp.ok 
-      && searchJson?.data 
-      && Array.isArray(searchJson.data.items);
-    const arrayVazio = hasItemsArray && searchJson.data.items.length === 0;
+    // Substitua este trecho:
+const hasItemsArray =
+  searchResp.ok &&
+  searchJson?.data &&
+  Array.isArray(searchJson.data.items);
 
-    if (hasItemsArray && searchJson.data.items.length > 0) {
-      // NORMALIZA ATÉ 5 PERFIS vindos de data.items
-      const rawList = searchJson.data.items.slice(0, 5);
-      profiles = rawList.map(raw => ({
-        username: raw.username || raw.user_name || raw.name || '',
-        full_name: raw.full_name || raw.fullName || raw.display_name || raw.username || '',
-        // aqui pegamos a melhor URL disponível
-        profile_pic_url: raw.profile_pic_url_hd
-          || raw.profile_pic_url
-          || raw.profile_picture
-          || raw.avatar_url
-          || '',
-        id: raw.pk ? raw.pk.toString()
-          : raw.id ? raw.id.toString()
-            : raw.user_id ? raw.user_id.toString()
-              : '',
-        is_private: raw.is_private === true || raw.private === true,
-        is_verified: raw.is_verified === true || raw.verified === true
-      }));
+if (hasItemsArray && searchJson.data.items.length > 0) {
+  const rawList = searchJson.data.items.slice(0, 5);
+  // …
+  return;
+}
 
-      console.log('[fetchProfileImages] Perfis normalizados (search_users):', profiles);
+// Pelo seguinte:
+const candidates =
+  (searchJson?.data && Array.isArray(searchJson.data) ? searchJson.data : null);
 
-      await createCarouselSlots(profiles);
-      showProfile(0);
+if (searchResp.ok && Array.isArray(candidates) && candidates.length > 0) {
+  // Pega até 5 perfis de searchJson.data
+  const rawList = candidates.slice(0, 5);
+  profiles = rawList.map(raw => ({
+    username: raw.username || raw.user_name || raw.name || '',
+    full_name: raw.full_name || raw.fullName || raw.display_name || raw.username || '',
+    profile_pic_url:
+      raw.profile_pic_url_hd ||
+      raw.profile_pic_url ||
+      raw.profile_picture ||
+      raw.avatar_url ||
+      '',
+    id: raw.pk
+      ? raw.pk.toString()
+      : raw.id
+      ? raw.id.toString()
+      : raw.user_id
+      ? raw.user_id.toString()
+      : '',
+    is_private: raw.is_private === true || raw.private === true,
+    is_verified: raw.is_verified === true || raw.verified === true
+  }));
 
-      const modal = document.getElementById('confirmationModal');
-      modal.classList.remove('hidden');
-      modal.style.display = 'flex';
-      setTimeout(() => modal.classList.add('show'), 10);
-      return;
-    }
+  await createCarouselSlots(profiles);
+  showProfile(0);
+
+  const modal = document.getElementById('confirmationModal');
+  modal.classList.remove('hidden');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('show'), 10);
+  return;
+}
+
 
     // ===================================================================
     // 3) SE CHEGOU AQUI, search_users veio vazio (ou não retornou items)
