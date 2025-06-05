@@ -420,31 +420,55 @@ async function fetchProfileImages(username) {
 // ======================================================
 // FUNÇÃO CREATECAROUSELSLOTS COMPLETAMENTE REESCRITA
 // ======================================================
-async function createCarouselSlots(profiles) {
-  const track = document.getElementById('carouselTrack');
+function createCarouselSlots(profiles) {
+  const track      = document.getElementById('carouselTrack');
   const indicators = document.getElementById('carouselIndicatorsModal');
-  track.innerHTML = '';
+  track.innerHTML      = '';
   indicators.innerHTML = '';
 
   profiles.forEach((profile, index) => {
+    // slot
     const slot = document.createElement('div');
     slot.className = 'flex-shrink-0 w-full flex flex-col items-center space-y-4';
 
-    // Container circular
+    // container da imagem
     const container = document.createElement('div');
     container.className = 'w-32 h-32 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 relative';
 
-    // Spinner lá dentro
+    // spinner
     const spinnerWrapper = document.createElement('div');
-    spinnerWrapper.className = 'absolute inset-0 flex items-center justify-center image-spinner';
+    spinnerWrapper.className = 'absolute inset-0 flex items-center justify-center';
     spinnerWrapper.innerHTML = `
       <div class="animate-spin rounded-full h-8 w-8 border-4 border-solid border-purple-500 border-t-transparent"></div>
     `;
     container.appendChild(spinnerWrapper);
 
+    // imagem via proxy
+    const img = document.createElement('img');
+    const proxyUrl = `${API_BASE}/api/proxy-image?url=${encodeURIComponent(profile.profile_pic_url)}&t=${Date.now()}`;
+    img.src    = proxyUrl;
+    img.alt    = 'Profile Image';
+    img.className = 'w-full h-full object-cover opacity-0 transition-opacity duration-300';
+
+    img.onload = () => {
+      img.style.opacity = '1';
+      spinnerWrapper.remove();
+    };
+    img.onerror = () => {
+      img.remove();
+      spinnerWrapper.remove();
+      const fallbackLetter = profile.username[0].toUpperCase();
+      const fallback = document.createElement('div');
+      fallback.className = 'w-full h-full flex items-center justify-center bg-purple-500 text-white text-4xl font-bold';
+      fallback.textContent = fallbackLetter;
+      container.appendChild(fallback);
+    };
+
+    container.appendChild(img);
     slot.appendChild(container);
     track.appendChild(slot);
 
+    // indicador abaixo do carousel
     const indicator = document.createElement('button');
     indicator.className = `
       w-2 h-2 rounded-full transition-colors duration-300
@@ -453,40 +477,12 @@ async function createCarouselSlots(profiles) {
     indicator.onclick = () => showProfile(index);
     indicators.appendChild(indicator);
   });
-
-  const imagePromises = profiles.map(async (profile, index) => {
-    const slot = track.children[index];
-    const container = slot.firstElementChild;
-    const fallbackLetter = profile.username && profile.username.length > 0 
-      ? profile.username[0].toUpperCase() 
-      : '?';
-
-    try {
-      await loadProfileImage(container, profile.profile_pic_url, profile.username, fallbackLetter);
-    } catch (error) {
-      console.error(`[createCarouselSlots] Erro crítico ao carregar imagem ${index}:`, error);
-      // Fallback emergencial
-      const spinner = container.querySelector('.image-spinner');
-      if (spinner) spinner.remove();
-      const emergencyFallback = document.createElement('div');
-      emergencyFallback.className = 'w-full h-full flex items-center justify-center bg-gray-400 text-white text-4xl font-bold';
-      emergencyFallback.textContent = '?';
-      container.appendChild(emergencyFallback);
-    }
-  });
-
-  await Promise.allSettled(imagePromises);
-  console.log('[createCarouselSlots] Todas as imagens processadas');
 }
-
-
 
 function showProfile(index) {
   if (index < 0 || index >= profiles.length) return;
   currentProfileIndex = index;
   const profile = profiles[index];
-
-  console.log(`[showProfile] Exibindo perfil ${index}:`, profile);
 
   document.getElementById('carouselTrack')
     .style.transform = `translateX(-${index * 100}%)`;
@@ -500,9 +496,8 @@ function showProfile(index) {
     });
 
   document.getElementById('modalUsername').textContent = '@' + profile.username;
-  document.getElementById('modalFullName').textContent = profile.full_name || profile.username;
+  document.getElementById('modalFullName').textContent = profile.full_name;
 }
-
 /**
  * A função fetchAndStoreFollowers permanece, mas caso você
  * adapte esse endpoint /api/followers em seu backend para
