@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaGuard Pro - Área de Membros</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+        
+        // Check initial theme before DOM loads
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-white dark:bg-black min-h-screen relative overflow-x-hidden">
+
+    <!-- Elementos de Background -->
+    <div class="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(40,90,235,0.05),transparent_50%)]"></div>
+    <div class="fixed top-0 left-0 w-1/3 h-1/3 bg-[radial-gradient(circle_at_0%_0%,rgba(214,36,159,0.05),transparent_50%)]"></div>
+    <div class="fixed bottom-0 right-0 w-1/3 h-1/3 bg-[radial-gradient(circle_at_100%_100%,rgba(253,89,73,0.05),transparent_50%)]"></div>
+
+    <!-- Mobile Menu Button -->
+    <button id="menuButton" class="fixed top-8 left-4 z-50 p-2 rounded-lg bg-gray-100 dark:bg-gray-800">
+        <svg class="w-6 h-6 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full display:none z-40 w-64 glass-effect border-r border-gray-200 dark:border-gray-800 transition-transform duration-300 ease-in-out">
+            <div class="h-full flex flex-col max-h-full overflow-y-auto">
+                <div class="p-4">
+                    <h1 class="text-xl font-bold mb-8 mt-6 ml-12 instagram-gradient">InstaGuard PRO</h1>
+                    <nav class="space-y-2">
+                        <a href="#" class="block px-4 py-2 rounded-lg text-gray-200 dark:text-gray-200 hover:bg-purple-500/10 transition-all">
+                            Dashboard
+                        </a>
+                        <a href="#produtos" class="block px-4 py-2 rounded-lg text-gray-200 dark:text-gray-200 hover:bg-purple-500/10 transition-all">
+                            Produtos
+                        </a>
+                        <a href="#apps" class="block px-4 py-2 rounded-lg text-gray-200 dark:text-gray-200 hover:bg-purple-500/10 transition-all">
+                            Apps
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Status dos Sistemas -->
+                <div class="p-4 mt-4">
+                    <h2 class="text-sm font-semibold text-gray-100 dark:text-gray-200 mb-4 uppercase tracking-wider">Status dos Sistemas</h2>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-100 dark:text-gray-300">Spygram</span>
+                            <span class="flex items-center text-green-500">
+                                <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                                ON
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-100 dark:text-gray-300">StalkerGram</span>
+                            <span class="flex items-center text-green-500">
+                                <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                                ON
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-100 dark:text-gray-300">WhatsSpy</span>
+                            <span class="flex items-center text-green-500">
+                                <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                                ON
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estatísticas -->
+                <div class="p-4 mt-4">
+                    <h2 class="text-sm font-semibold text-gray-100 dark:text-gray-300 mb-4 uppercase tracking-wider">Estatísticas</h2>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-100 dark:text-gray-300">Perfis Rastreados</span>
+                            <span id="trackedProfiles" class="text-purple-500 font-semibold">1,234</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-100 dark:text-gray-300">Usuários Online</span>
+                            <span id="onlineUsers" class="text-purple-500 font-semibold">847</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-100 dark:text-gray-300">Uptime</span>
+                            <span class="text-purple-500 font-semibold">99.9%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apps Disponíveis -->
+                <div class="p-4 mt-4">
+                    <h2 class="text-sm font-semibold text-gray-100 dark:text-gray-300 mb-4 uppercase tracking-wider">Apps Disponíveis</h2>
+                    <p class="text-sm text-gray-100 dark:text-gray-400 mb-4">
+                        Acesse os aplicativos adquiridos em um só lugar, de forma prática, segura e anônima!
+                    </p>
+                    <div class="space-y-2">
+                        <a href="#" class="block px-4 py-2 rounded-lg text-gray-100 dark:text-gray-200 hover:bg-purple-500/10 transition-all flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                            Instagram Spy Pro
+                        </a>
+                        <a href="#" class="block px-4 py-2 rounded-lg text-gray-100 dark:text-gray-200 hover:bg-purple-500/10 transition-all flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                            WhatsApp Monitor
+                        </a>
+                        <a href="#" class="block px-4 py-2 rounded-lg text-gray-100 dark:text-gray-200 hover:bg-purple-500/10 transition-all flex items-center">
+                            <span class="w-2 h-2 bg-yellow-500 rounded-full mr-2"></span>
+                            Facebook Tracker
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Theme Toggle -->
+                <div class="mt-auto p-4">
+                    <button id="themeToggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors group" aria-label="Alternar tema">
+                        <div class="relative">
+                            <svg id="themeIcon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Overlay for mobile -->
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black opacity-50 z-30 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 sm:mt-2">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-2xl font-bold mb-6 ml-8 text-gray-800 dark:text-gray-200">Produtos Disponíveis</h2>
+                
+                <!-- Products Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Produto Disponível -->
+                    <div class="glass-effect rounded-xl p-4 cursor-pointer transform hover:scale-105 transition-all">
+                        <a href="spygram-pro/" class="block">
+                            <div class="h-[400px] w-full rounded-lg mb-4 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-[url('images/spygram-members.png')] bg-cover bg-center"></div>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span class="text-white text-4xl"></span>
+                                </div>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">SpyGram - InstaGuard</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Acesso e Monitoramento de Perfis no Instagram</p>
+                        </a>
+                    </div>
+
+                    <!-- Produtos Bloqueados -->
+                    <div class="produto-bloqueado glass-effect rounded-xl p-4 cursor-pointer transform hover:scale-105 transition-all relative">
+                        <div class="h-[400px] w-full rounded-lg mb-4 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-[url('images/spyzap-members.png')] bg-cover bg-center filter blur-sm"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-white text-4xl">🔒</span>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">SpyZap</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Clone o Whatsapp de qualquer pessoa!</p>
+                    </div>
+
+                    <div class="produto-bloqueado glass-effect rounded-xl p-4 cursor-pointer transform hover:scale-105 transition-all relative">
+                        <div class="h-[400px] w-full rounded-lg mb-4 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-[url('images/suporte.jpg')] bg-cover bg-center"></div>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Suporte Vip</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Suporte 24/7</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Container -->
+    <div id="modalContainer" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div id="modalContent" class="glass-effect rounded-xl p-6 max-w-lg w-full mx-4">
+            <!-- Modal content will be loaded here -->
+        </div>
+    </div>
+
+
+    <link rel="stylesheet" href="./index_files/styles.css">
+    <script type="module" src="js/modules/theme.js"></script>
+    <script type="module" src="js/modules/stats.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/members.js"></script>
+  
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"942db70a8d73caf6","version":"2025.4.0-1-g37f21b1","r":1,"token":"ba8981d4d36f4dc28f5f67d834fa508b","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}}}' crossorigin="anonymous"></script>
+</body>
+</html>
