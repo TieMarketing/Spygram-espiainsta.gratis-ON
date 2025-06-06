@@ -1157,7 +1157,7 @@ function showBlockedMessagesModal() {
             <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
                 Você precisa do acesso Premium para visualizar essas mensagens.
             </p>
-            <a class="cta_tracker" href="">
+            <a class="cta_tracker" href="https://go.perfectpay.com.br/PPU38CPPF83">
                 <button class="bg-gradient-to-r from-purple-600 to-pink-500 text-white font-medium rounded-lg px-4 py-2 w-full">
                     Obter acesso Premium
                 </button>
