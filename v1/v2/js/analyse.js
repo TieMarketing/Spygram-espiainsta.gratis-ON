@@ -12,7 +12,6 @@ let profiles = [];
 // NOVA FUNÇÃO PARA LIMPAR URLs DO INSTAGRAM
 // ======================================================
 function cleanInstagramUrl(url) {
-  // Em vez de remover quase tudo, apenas devolvemos a URL bruta.
   return String(url || '');
 }
 
