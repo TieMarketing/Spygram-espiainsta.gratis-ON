@@ -724,6 +724,14 @@ function showAccessDialog(message) {
         alert(message);
     }
 }
+document.getElementById('continuePreviewBtn')?.addEventListener('click', () => {
+    const overlay = document.getElementById('limitedAccessOverlay');
+    if (overlay) {
+        overlay.style.display = 'none';
+        isOverlayVisible = false;
+    }
+});
+
 
 // ———————— Efeito de "digitando" (sem alterações) ————————
 function simulateTypingEffect() {
