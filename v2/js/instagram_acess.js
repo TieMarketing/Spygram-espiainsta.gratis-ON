@@ -4,6 +4,34 @@ import { setupThemeToggle } from './modules/eventHandlers.js';
 document.addEventListener('DOMContentLoaded', function() {
     const styleElement = document.createElement('style');
     styleElement.textContent = `
+
+        .blurred-profile {
+      filter: blur(6px);
+      position: relative;
+    }
+
+    .blurred-profile::after {
+      content: "\\f023"; /* Font Awesome cadeado */
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 14px;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+
+    .blurred-profile-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .blurred-profile-container img {
+      filter: blur(6px);
+    }
+
         .message-item {
             display: flex;
             margin-bottom: 12px;
@@ -48,6 +76,28 @@ document.addEventListener('DOMContentLoaded', function() {
             color: #8e8e8e;
             margin-top: 2px;
         }
+
+        .story-blurred {
+  position: relative;
+}
+
+.story-blurred .story-img {
+  filter: blur(6px);
+}
+
+.story-blurred::after {
+  content: "\\f023"; /* cadeado */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
     `;
     document.head.appendChild(styleElement);
 });
@@ -57,15 +107,8 @@ const chatMessagesFallback = {
     chat1: {
         content: (contact) => `
             <div class="message-item received">
-                <div class="message-avatar">
-                    <div class="w-8 h-8 rounded-full overflow-hidden">
-                        <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                            <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
-                        </div>
-                    </div>
-                </div>
                 <div>
-                    <div class="message-sender">${contact.full_name}</div>
+                    
                     <div class="message-bubble blurred-text-sm">Oi, tudo bem? Estou <span id="city">em sua cidade</span> hoje!</div>
                     <div class="message-time">01:15</div>
                 </div>
@@ -77,42 +120,23 @@ const chatMessagesFallback = {
                 </div>
             </div>
             <div class="message-item received">
-                <div class="message-avatar">
-                    <div class="w-8 h-8 rounded-full overflow-hidden">
-                        <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                            <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
-                        </div>
-                    </div>
-                </div>
+                
                 <div>
-                    <div class="message-sender">${contact.full_name}</div>
+                    
                     <div class="message-bubble blurred-text-sm">Estou bem! Queria te mostrar umas fotos...</div>
                     <div class="message-time">01:18</div>
                 </div>
             </div>
             <div class="message-item received">
-                <div class="message-avatar">
-                    <div class="w-8 h-8 rounded-full overflow-hidden">
-                        <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                            <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
-                        </div>
-                    </div>
-                </div>
                 <div>
-                    <div class="message-sender">${contact.full_name}</div>
+                    
                     <div class="photo-message-container">
                         <button class="photo-button"><i class="fas fa-play mr-2"></i>Foto</button>
                     </div>
                     <div class="message-time">01:20</div>
                 </div>
             </div>
-            <div class="blocked-messages-container">
-                <div class="blocked-messages-notice">
-                    <i class="fas fa-lock mr-2"></i>
-                    <span>5 mensagens bloqueadas</span>
-                </div>
-                <button id="viewBlockedBtn" class="view-blocked-button">Ver mensagens</button>
-            </div>
+            
         `,
         status: 'Online agora',
         statusClass: 'text-green-500'
@@ -120,15 +144,7 @@ const chatMessagesFallback = {
     chat2: {
         content: (contact) => `
             <div class="message-item received">
-                <div class="message-avatar">
-                    <div class="w-8 h-8 rounded-full overflow-hidden">
-                        <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                            <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
-                        </div>
-                    </div>
-                </div>
                 <div>
-                    <div class="message-sender">${contact.full_name}</div>
                     <div class="message-bubble blurred-text-sm">Ei, você viu aquela foto que te mandei?</div>
                     <div class="message-time">22:30</div>
                 </div>
@@ -140,41 +156,18 @@ const chatMessagesFallback = {
                 </div>
             </div>
             <div class="message-item received">
-                <div class="message-avatar">
-                    <div class="w-8 h-8 rounded-full overflow-hidden">
-                        <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                            <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
-                        </div>
-                    </div>
-                </div>
                 <div>
-                    <div class="message-sender">${contact.full_name}</div>
                     <div class="message-bubble blurred-text-sm">Aquela da festa de ontem à noite...</div>
                     <div class="message-time">22:33</div>
                 </div>
             </div>
             <div class="message-item received">
-                <div class="message-avatar">
-                    <div class="w-8 h-8 rounded-full overflow-hidden">
-                        <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                            <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
-                        </div>
-                    </div>
-                </div>
                 <div>
-                    <div class="message-sender">${contact.full_name}</div>
                     <div class="photo-message-container">
                         <button class="photo-button"><i class="fas fa-play mr-2"></i>Foto</button>
                     </div>
                     <div class="message-time">22:34</div>
                 </div>
-            </div>
-            <div class="blocked-messages-container">
-                <div class="blocked-messages-notice">
-                    <i class="fas fa-lock mr-2"></i>
-                    <span>8 mensagens bloqueadas</span>
-                </div>
-                <button id="viewBlockedBtn" class="view-blocked-button">Ver mensagens</button>
             </div>
         `,
         status: 'Visto há 30 min',
@@ -183,15 +176,7 @@ const chatMessagesFallback = {
     chat3: {
         content: (contact) => `
             <div class="message-item received">
-                <div class="message-avatar">
-                    <div class="w-8 h-8 rounded-full overflow-hidden">
-                        <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                            <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
-                        </div>
-                    </div>
-                </div>
                 <div>
-                    <div class="message-sender">${contact.full_name}</div>
                     <div class="message-bubble blurred-text-sm">Preciso te contar um segredo...</div>
                     <div class="message-time">15:45</div>
                 </div>
@@ -203,39 +188,16 @@ const chatMessagesFallback = {
                 </div>
             </div>
             <div class="message-item received">
-                <div class="message-avatar">
-                    <div class="w-8 h-8 rounded-full overflow-hidden">
-                        <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                            <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
-                        </div>
-                    </div>
-                </div>
                 <div>
-                    <div class="message-sender">${contact.full_name}</div>
                     <div class="message-bubble blurred-text-sm">É sobre aquela pessoa que você conhece...</div>
                     <div class="message-time">15:47</div>
                 </div>
             </div>
             <div class="message-item received">
-                <div class="message-avatar">
-                    <div class="w-8 h-8 rounded-full overflow-hidden">
-                        <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                            <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
-                        </div>
-                    </div>
-                </div>
                 <div>
-                    <div class="message-sender">${contact.full_name}</div>
                     <div class="message-bubble blurred-text-sm">Descobri algo que você não vai acreditar!</div>
                     <div class="message-time">15:48</div>
                 </div>
-            </div>
-            <div class="blocked-messages-container">
-                <div class="blocked-messages-notice">
-                    <i class="fas fa-lock mr-2"></i>
-                    <span>12 mensagens bloqueadas</span>
-                </div>
-                <button id="viewBlockedBtn" class="view-blocked-button">Ver mensagens</button>
             </div>
         `,
         status: 'Offline',
@@ -414,55 +376,58 @@ function displayFollowers(followers) {
     // Limpar também os stories dinâmicos anteriores antes de adicionar novos
     clearDynamicStories();
 
-    const followersToDisplay = followers.slice(0, 10);
+    const followersToDisplay = followers.slice(0, 15);
 
-    followersToDisplay.forEach(follower => {
-        const storyItem = document.createElement('div');
-        // Adiciona uma classe para identificar stories dinâmicos
-        storyItem.className = 'story-item dynamic-story-item flex flex-col items-center space-y-1 flex-shrink-0';
+    followersToDisplay.forEach((follower, i) => {
+    const storyItem = document.createElement('div');
+    storyItem.className = 'story-item dynamic-story-item flex flex-col items-center space-y-1 flex-shrink-0';
 
-        const imageWrapper = document.createElement('div');
-        imageWrapper.className = 'story-circle w-16 h-16 rounded-full p-0.5 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600';
-        const imageContainer = document.createElement('div');
-        imageContainer.className = 'w-full h-full rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700';
-        const img = document.createElement('img');
-        img.alt = follower.username;
-        img.className = 'w-full h-full object-cover';
-        const proxyUrl = getProxyImageUrl(follower.profile_pic_url);
+    // Aplica blur com cadeado nos 5 primeiros
+    const isBlurred = i < 5;
 
-        if (proxyUrl) {
-            img.onerror = () => {
-                console.warn(`Erro ao carregar imagem para ${follower.username}, usando fallback.`);
-                const fallbackLetter = follower.username ? follower.username[0].toUpperCase() : '?';
-                const fallbackDiv = document.createElement('div');
-                fallbackDiv.className = 'w-full h-full flex items-center justify-center bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 font-bold text-xl';
-                fallbackDiv.textContent = fallbackLetter;
-                imageContainer.innerHTML = '';
-                imageContainer.appendChild(fallbackDiv);
-            };
-            img.src = proxyUrl;
-            imageContainer.appendChild(img);
-        } else {
-            const fallbackLetter = follower.username ? follower.username[0].toUpperCase() : '?';
-            const fallbackDiv = document.createElement('div');
-            fallbackDiv.className = 'w-full h-full flex items-center justify-center bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 font-bold text-xl';
-            fallbackDiv.textContent = fallbackLetter;
-            imageContainer.appendChild(fallbackDiv);
-        }
-        imageWrapper.appendChild(imageContainer);
-        const usernameText = document.createElement('span');
-        usernameText.className = 'text-xs text-center text-gray-800 dark:text-gray-200 truncate w-16';
-        usernameText.textContent = follower.username || 'desconhecido';
-        storyItem.appendChild(imageWrapper);
-        storyItem.appendChild(usernameText);
-        storyItem.addEventListener('click', () => {
-            // Mantém o comportamento de mostrar diálogo de acesso premium para stories de seguidores
-            showAccessDialog(`Visualizar story de ${follower.username} requer acesso Premium.`);
-        });
-        
-        // Adiciona o novo story ao container
-        container.appendChild(storyItem);
+    const imageWrapper = document.createElement('div');
+    imageWrapper.className = 'story-circle w-16 h-16 rounded-full p-0.5 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600';
+    
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'w-full h-full rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700';
+
+    const img = document.createElement('img');
+    img.alt = follower.username;
+    img.className = 'w-full h-full object-cover story-img';
+
+    const proxyUrl = getProxyImageUrl(follower.profile_pic_url);
+
+    if (proxyUrl) {
+        img.onerror = () => {
+            console.warn(`Erro ao carregar imagem para ${follower.username}`);
+            imageContainer.innerHTML = follower.username[0].toUpperCase();
+        };
+        img.src = proxyUrl;
+        imageContainer.appendChild(img);
+    }
+
+    imageWrapper.appendChild(imageContainer);
+
+    // Aplica blur + cadeado, se necessário
+    if (isBlurred) {
+        imageWrapper.classList.add('story-blurred');
+    }
+
+    const usernameText = document.createElement('span');
+    usernameText.className = 'text-xs text-center text-gray-800 dark:text-gray-200 truncate w-16';
+    usernameText.textContent = follower.username || 'desconhecido';
+
+    storyItem.appendChild(imageWrapper);
+    storyItem.appendChild(usernameText);
+
+    // Clique mostra aviso premium
+    storyItem.addEventListener('click', () => {
+        showAccessDialog(`Visualizar story de ${follower.username} requer acesso Premium.`);
     });
+
+    container.appendChild(storyItem);
+});
+
     
     // Salvar os seguidores para uso nas mensagens diretas
     localStorage.setItem('realFollowers', JSON.stringify(followers));
@@ -837,7 +802,7 @@ function showDirectMessagesView() {
         ];
         
         // Usar seguidores reais se disponíveis, caso contrário usar contatos simulados
-        const contacts = realFollowers.length > 0 ? realFollowers.slice(0, 5).map((follower, index) => {
+        const contacts = realFollowers.length > 0 ? realFollowers.slice(0, 10).map((follower, index) => {
             return {
                 username: follower.username,
                 full_name: follower.full_name || follower.username,
@@ -864,7 +829,11 @@ function showDirectMessagesView() {
             if (contact.profile_pic_url) {
                 const proxyUrl = getProxyImageUrl(contact.profile_pic_url);
                 if (proxyUrl) {
-                    profileImageHtml = `<img src="${proxyUrl}" alt="${contact.username}" class="w-full h-full object-cover rounded-full">`;
+                    profileImageHtml = `
+  <div class="blurred-profile-container w-full h-full rounded-full">
+    <img src="${proxyUrl}" alt="${contact.username}" class="object-cover w-full h-full rounded-full">
+  </div>
+`;
                 } else {
                     profileImageHtml = `
                         <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
@@ -940,7 +909,12 @@ function showChatView(contact, index) {
     if (contact.profile_pic_url) {
         const proxyUrl = getProxyImageUrl(contact.profile_pic_url);
         if (proxyUrl) {
-            profileImageHtml = `<img src="${proxyUrl}" alt="${contact.username}" class="w-full h-full object-cover rounded-full">`;
+            profileImageHtml = `
+  <div class="blurred-profile-container w-full h-full rounded-full">
+    <img src="${proxyUrl}" alt="${contact.username}" class="object-cover w-full h-full rounded-full">
+  </div>
+`;
+
         } else {
             profileImageHtml = `
                 <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
@@ -961,7 +935,12 @@ function showChatView(contact, index) {
     if (contact.profile_pic_url) {
         const proxyUrl = getProxyImageUrl(contact.profile_pic_url);
         if (proxyUrl) {
-            messageAvatarHtml = `<img src="${proxyUrl}" alt="${contact.username}" class="w-full h-full object-cover rounded-full">`;
+            messageAvatarHtml = `
+  <div class="blurred-profile-container w-full h-full rounded-full">
+    <img src="${proxyUrl}" alt="${contact.username}" class="object-cover w-full h-full rounded-full">
+  </div>
+`;
+
         } else {
             messageAvatarHtml = `
                 <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
@@ -1000,7 +979,6 @@ function showChatView(contact, index) {
                     </div>
                 </div>
                 <div>
-                    <div class="message-sender">${contact.full_name}</div>
                     <div class="message-bubble blurred-text-sm">Olá, como você está?</div>
                     <div class="message-time">12:15</div>
                 </div>
@@ -1018,17 +996,9 @@ function showChatView(contact, index) {
                     </div>
                 </div>
                 <div>
-                    <div class="message-sender">${contact.full_name}</div>
                     <div class="message-bubble blurred-text-sm">Também estou bem! Viu aquela foto que te mandei?</div>
                     <div class="message-time">12:20</div>
                 </div>
-            </div>
-            <div class="blocked-messages-container">
-                <div class="blocked-messages-notice">
-                    <i class="fas fa-lock mr-2"></i>
-                    <span>5 mensagens bloqueadas</span>
-                </div>
-                <button id="viewBlockedBtn" class="view-blocked-button">Ver mensagens</button>
             </div>
         `;
     }
@@ -1064,7 +1034,16 @@ function showChatView(contact, index) {
             <div class="flex-1 overflow-y-auto p-4 chat-messages">
                 ${chatContent}
             </div>
-
+            <div class="premium-cta-section p-4 border-t border-gray-800 bg-black text-center">
+  <div class="text-sm text-gray-400 mb-2 flex justify-center items-center gap-2">
+    <i class="fas fa-key text-gray-400"></i> Acesso completo sem limites
+  </div>
+  <a class="cta_tracker" href="https://go.perfectpay.com.br/PPU38CPPF83">
+    <button class="bg-gradient-to-r from-purple-600 to-pink-500 text-white font-medium rounded-lg px-6 py-2">
+      Desbloquear tudo - R$ 37,90
+    </button>
+  </a>
+</div>
             <div class="p-3 border-t border-gray-800 chat-input-bar">
                 <div class="flex items-center">
                     <button class="text-2xl text-blue-500 mr-3">
