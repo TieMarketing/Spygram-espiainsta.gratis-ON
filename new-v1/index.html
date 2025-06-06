@@ -91,7 +91,7 @@
 </head>
 <body>
   <div class="background">
-    <iframe id="backgroundIframe" src="v2/"></iframe>
+    <iframe id="backgroundIframe" src="v1/v2/"></iframe>
   </div>
    
   <div class="modal" id="cookieModal">
@@ -154,7 +154,7 @@
       const utmQuery = buildUTMQuery(utmParams);
       
       // Constrói a URL de destino com os parâmetros UTM
-      let destinationUrl = "./v2/index.html";
+      let destinationUrl = "./v1/v2/index.html";
       if (utmQuery) {
         destinationUrl += "?" + utmQuery;
       }
