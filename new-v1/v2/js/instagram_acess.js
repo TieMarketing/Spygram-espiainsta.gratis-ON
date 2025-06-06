@@ -544,7 +544,7 @@ function showProfileView() {
           <p class="text-center text-gray-500 dark:text-gray-400 mb-4">
             Obtenha acesso premium para ver o perfil completo.
           </p>
-          <a class="cta_tracker" href="">
+          <a class="cta_tracker" href="https://go.perfectpay.com.br/PPU38CPPF83">
             <button class="bg-gradient-to-r from-purple-600 to-pink-500 text-white font-medium rounded-lg px-4 py-2 w-full">
               Obter acesso completo R$ 37,90
             </button>
@@ -553,6 +553,20 @@ function showProfileView() {
       </div>
     `;
         document.body.appendChild(profileView);
+        // Reaplica a função de redirecionamento UTM no botão inserido dinamicamente
+setTimeout(() => {
+    const ctaLink = profileView.querySelector('a.cta_tracker');
+    if (ctaLink) {
+        const originalHref = ctaLink.getAttribute('href');
+        ctaLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            // Certifique-se de que addUTMToURL está disponível globalmente
+            const newUrl = typeof addUTMToURL === 'function' ? addUTMToURL(originalHref) : originalHref;
+            window.location.href = newUrl;
+        });
+    }
+}, 0);
+
         document.getElementById('backButtonProfileView').addEventListener('click', () => profileView.remove());
         fetchProfileDataFromStorage();
     }
@@ -1168,6 +1182,19 @@ function showChatView(contact, index) {
     
     // Exibir o chat
     chatView.style.display = 'flex';
+    // Reaplica o redirecionamento UTM no botão do chat
+setTimeout(() => {
+    const chatCtaLink = chatView.querySelector('a.cta_tracker');
+    if (chatCtaLink) {
+        const originalHref = chatCtaLink.getAttribute('href');
+        chatCtaLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            const newUrl = typeof addUTMToURL === 'function' ? addUTMToURL(originalHref) : originalHref;
+            window.location.href = newUrl;
+        });
+    }
+}, 0);
+
     
     // Configurar eventos
     setupChatEvents();
