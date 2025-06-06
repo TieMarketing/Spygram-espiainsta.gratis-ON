@@ -1,4 +1,5 @@
 import { setupThemeToggle } from './modules/eventHandlers.js';
+const API_BASE = 'https://proxy-server-git-main-devanuchihas-projects.vercel.app';
 
 // Adicionar estilos CSS para as novas classes
 document.addEventListener('DOMContentLoaded', function() {
@@ -261,9 +262,6 @@ let postClickCount = 0;
 let blurLevel = 4; // Nível inicial de blur (ex: 4px)
 let isProfilePrivate = false;
 
-// URL base do seu proxy Vercel
-const API_BASE = 'https://proxy-server-git-main-devanuchihas-projects.vercel.app';
-
 // Elementos DOM frequentemente acessados
 const limitedAccessOverlay = document.getElementById('limitedAccessOverlay');
 let currentTemporaryMessage = null;
@@ -342,32 +340,27 @@ async function fetchAndDisplayFollowers(username) {
 }
 
 async function fetchFollowers(username) {
-    if (!username) return [];
-    const RAPIDAPI_KEY = '4f9decdf1cmsha8e3c875cf114cfp10297fjsnf1451941f64f'; // <-- Mova para backend!
-    const url = `https://instagram-social-api.p.rapidapi.com/v1/followers?username_or_id_or_url=${encodeURIComponent(username)}`;
-    const options = {
-        method: 'GET',
-        headers: {
-            'x-rapidapi-key': RAPIDAPI_KEY,
-            'x-rapidapi-host': 'instagram-social-api.p.rapidapi.com'
-        }
-    };
-    try {
-        console.log(`Buscando seguidores para ${username}...`);
-        const response = await fetch(url, options);
-        if (!response.ok) {
-            console.error(`Erro da API de seguidores: ${response.status}`);
-            const errorText = await response.text();
-            console.error('Detalhe do erro:', errorText);
-            return [];
-        }
-        const result = await response.json();
-        console.log('Resposta da API de seguidores:', result);
-        return result?.data?.items || [];
-    } catch (error) {
-        console.error('Erro ao buscar seguidores:', error);
-        return [];
+  if (!username) return [];
+
+  const url = `${API_BASE}/api/followers?username=${encodeURIComponent(username)}`;
+
+  try {
+    console.log(`Buscando seguidores para ${username} via proxy Vercel...`);
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Erro do proxy: ${response.status}`, errorText);
+      return [];
     }
+
+    const result = await response.json();
+    console.log('Seguidores via proxy:', result);
+    return result?.followers || [];
+  } catch (error) {
+    console.error('Erro ao buscar seguidores via proxy Vercel:', error);
+    return [];
+  }
 }
 
 // Função para limpar APENAS stories adicionados dinamicamente (seguidores)
