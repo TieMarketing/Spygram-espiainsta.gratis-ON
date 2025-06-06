@@ -43,7 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         .message-item.sent {
-            justify-content: flex-end;
+            display: flex;
+            
+            left: 0;
             flex-direction: row-reverse;
         }
         
@@ -1134,7 +1136,7 @@ function showChatView(contact, index) {
                 </div>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-4 chat-messages">
+            <div class="flex-1 overflow-y-auto p-4 chat-messages w-full">
                 ${chatContent}
             </div>
             <div class="premium-cta-section p-4 border-t border-gray-800 bg-black text-center">
