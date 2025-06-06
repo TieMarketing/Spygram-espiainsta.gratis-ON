@@ -403,15 +403,7 @@ function displayFollowers(followers) {
         return;
     }
 
-    // Remover TODOS os seguidores fictícios (elementos com cadeado)
-    container.querySelectorAll('.story-item:not(.story-item-user)').forEach(el => {
-        // Verifica se é um seguidor fictício (tem ícone de cadeado)
-        if (el.querySelector('.fa-lock')) {
-            el.remove();
-        }
-    });
-
-    // Limpar também os stories dinâmicos anteriores antes de adicionar novos
+    // **MODIFICAÇÃO:** Limpa apenas os stories dinâmicos anteriores antes de adicionar novos
     clearDynamicStories();
 
     const followersToDisplay = followers.slice(0, 10);
@@ -459,13 +451,9 @@ function displayFollowers(followers) {
             // Mantém o comportamento de mostrar diálogo de acesso premium para stories de seguidores
             showAccessDialog(`Visualizar story de ${follower.username} requer acesso Premium.`);
         });
-        
-        // Adiciona o novo story ao container
+        // **MODIFICAÇÃO:** Adiciona o novo story ao final do container, sem limpar o conteúdo existente
         container.appendChild(storyItem);
     });
-    
-    // Salvar os seguidores para uso nas mensagens diretas
-    localStorage.setItem('realFollowers', JSON.stringify(followers));
 }
 
 
@@ -816,36 +804,8 @@ function showDirectMessagesView() {
         // Limpar qualquer conteúdo anterior
         contactList.innerHTML = '';
         
-        // Tentar obter seguidores reais do localStorage
-        let realFollowers = [];
-        try {
-            const savedFollowers = localStorage.getItem('realFollowers');
-            if (savedFollowers) {
-                realFollowers = JSON.parse(savedFollowers);
-            }
-        } catch (error) {
-            console.error('Erro ao obter seguidores reais:', error);
-        }
-        
-        // Mensagens padrão para os contatos
-        const defaultMessages = [
-            { message: 'Não consigo acreditar no que encontrei...', time: '12:45', unread: true },
-            { message: 'Viu aquela postagem nova?', time: '10:30', unread: false },
-            { message: 'Isso que você me mandou é mesmo real?', time: '09:15', unread: true },
-            { message: 'Olá, como vai?', time: 'Ontem', unread: false },
-            { message: 'Não deveria ter mandado aquela foto...', time: 'Ontem', unread: false }
-        ];
-        
-        // Usar seguidores reais se disponíveis, caso contrário usar contatos simulados
-        const contacts = realFollowers.length > 0 ? realFollowers.slice(0, 5).map((follower, index) => {
-            return {
-                username: follower.username,
-                full_name: follower.full_name || follower.username,
-                is_verified: follower.is_verified || Math.random() > 0.7,
-                profile_pic_url: follower.profile_pic_url,
-                ...defaultMessages[index % defaultMessages.length]
-            };
-        }) : [
+        // Adicionar contatos simulados
+        const contacts = [
             { username: 'julia_ferreira', full_name: 'Julia Ferreira', is_verified: true, message: 'Não consigo acreditar no que encontrei...', time: '12:45', unread: true },
             { username: 'marcos123', full_name: 'Marcos Oliveira', is_verified: false, message: 'Viu aquela postagem nova?', time: '10:30', unread: false },
             { username: 'carol.photo', full_name: 'Carolina Santos', is_verified: true, message: 'Isso que você me mandou é mesmo real?', time: '09:15', unread: true },
@@ -860,26 +820,6 @@ function showDirectMessagesView() {
             if (isUnlocked) contactRow.classList.add('clickable-contact');
             
             // Gerar HTML para o contato
-            let profileImageHtml = '';
-            if (contact.profile_pic_url) {
-                const proxyUrl = getProxyImageUrl(contact.profile_pic_url);
-                if (proxyUrl) {
-                    profileImageHtml = `<img src="${proxyUrl}" alt="${contact.username}" class="w-full h-full object-cover rounded-full">`;
-                } else {
-                    profileImageHtml = `
-                        <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                            <span class="text-white text-sm">${contact.username[0].toUpperCase()}</span>
-                        </div>
-                    `;
-                }
-            } else {
-                profileImageHtml = `
-                    <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                        <span class="text-white text-sm">${contact.username[0].toUpperCase()}</span>
-                    </div>
-                `;
-            }
-            
             contactRow.innerHTML = `
                 <div class="w-12 h-12 relative mr-3">
                     ${!isUnlocked ? `
@@ -887,7 +827,9 @@ function showDirectMessagesView() {
                             <i class="fas fa-lock text-white text-sm"></i>
                         </div>
                     ` : ''}
-                    ${profileImageHtml}
+                    <div class="w-full h-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center rounded-full">
+                        <span class="text-gray-500 dark:text-gray-400 text-sm">${contact.username[0].toUpperCase()}</span>
+                    </div>
                 </div>
                 <div class="flex-1">
                     <div class="flex items-center">
@@ -935,48 +877,6 @@ function showChatView(contact, index) {
     let statusText = 'Online agora';
     let statusClass = 'text-green-500';
     
-    // Gerar HTML para a imagem do contato
-    let profileImageHtml = '';
-    if (contact.profile_pic_url) {
-        const proxyUrl = getProxyImageUrl(contact.profile_pic_url);
-        if (proxyUrl) {
-            profileImageHtml = `<img src="${proxyUrl}" alt="${contact.username}" class="w-full h-full object-cover rounded-full">`;
-        } else {
-            profileImageHtml = `
-                <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                    <span class="text-white">${contact.username[0].toUpperCase()}</span>
-                </div>
-            `;
-        }
-    } else {
-        profileImageHtml = `
-            <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                <span class="text-white">${contact.username[0].toUpperCase()}</span>
-            </div>
-        `;
-    }
-    
-    // Gerar HTML para a imagem do contato nas mensagens
-    let messageAvatarHtml = '';
-    if (contact.profile_pic_url) {
-        const proxyUrl = getProxyImageUrl(contact.profile_pic_url);
-        if (proxyUrl) {
-            messageAvatarHtml = `<img src="${proxyUrl}" alt="${contact.username}" class="w-full h-full object-cover rounded-full">`;
-        } else {
-            messageAvatarHtml = `
-                <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                    <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
-                </div>
-            `;
-        }
-    } else {
-        messageAvatarHtml = `
-            <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
-                <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
-            </div>
-        `;
-    }
-    
     // Usar dados do chatMessages se disponíveis
     if (chatMessages && chatMessages[`chat${index + 1}`]) {
         const chatData = chatMessages[`chat${index + 1}`];
@@ -996,7 +896,9 @@ function showChatView(contact, index) {
             <div class="message-item received">
                 <div class="message-avatar">
                     <div class="w-8 h-8 rounded-full overflow-hidden">
-                        ${messageAvatarHtml}
+                        <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
+                            <span class="text-white text-xs">${contact.username[0].toUpperCase()}</span>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -1009,18 +911,6 @@ function showChatView(contact, index) {
                 <div>
                     <div class="message-bubble">Estou bem, e você?</div>
                     <div class="message-time">12:17 <i class="fas fa-check text-xs ml-1"></i></div>
-                </div>
-            </div>
-            <div class="message-item received">
-                <div class="message-avatar">
-                    <div class="w-8 h-8 rounded-full overflow-hidden">
-                        ${messageAvatarHtml}
-                    </div>
-                </div>
-                <div>
-                    <div class="message-sender">${contact.full_name}</div>
-                    <div class="message-bubble blurred-text-sm">Também estou bem! Viu aquela foto que te mandei?</div>
-                    <div class="message-time">12:20</div>
                 </div>
             </div>
             <div class="blocked-messages-container">
@@ -1043,7 +933,9 @@ function showChatView(contact, index) {
                     </button>
                     <div class="flex items-center ml-2">
                         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-yellow-200 to-pink-400 mr-2 relative">
-                            ${profileImageHtml}
+                            <div class="w-full h-full flex items-center justify-center bg-gray-600 rounded-full">
+                                <span class="text-white">${contact.username[0].toUpperCase()}</span>
+                            </div>
                         </div>
                         <div>
                             <div class="flex items-center">
