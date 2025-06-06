@@ -98,6 +98,25 @@ document.addEventListener('DOMContentLoaded', function() {
   z-index: 2;
 }
 
+        .photo-button, .video-button {
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+        }
+        
+        .photo-button:hover, .video-button:hover {
+            opacity: 0.8;
+            transform: scale(0.98);
+        }
+        
+        .location-share {
+            border: 1px solid #333;
+        }
+        
+        .location-share .bg-gradient-to-br {
+            background-image: linear-gradient(135deg, #60a5fa 0%, #a855f7 100%);
+        }
+
     `;
     document.head.appendChild(styleElement);
 });
@@ -980,13 +999,13 @@ function showChatView(contact, index) {
                 </div>
                 <div>
                     <div class="message-bubble blurred-text-sm">Olá, como você está?</div>
-                    <div class="message-time">12:15</div>
+                    <div class="message-time blurred-text-sm">01:15</div>
                 </div>
             </div>
             <div class="message-item sent">
                 <div>
-                    <div class="message-bubble">Estou bem, e você?</div>
-                    <div class="message-time">12:17 <i class="fas fa-check text-xs ml-1"></i></div>
+                    <div class="message-bubble blurred-text-sm">Oi! Tudo bem e você?</div>
+                    <div class="message-time blurred-text-sm">01:17 <i class="fas fa-check text-xs ml-1"></i></div>
                 </div>
             </div>
             <div class="message-item received">
@@ -997,7 +1016,91 @@ function showChatView(contact, index) {
                 </div>
                 <div>
                     <div class="message-bubble blurred-text-sm">Também estou bem! Viu aquela foto que te mandei?</div>
-                    <div class="message-time">12:20</div>
+                    <div class="message-time blurred-text-sm">01:18</div>
+                </div>
+            </div>
+            <div class="message-item received">
+                <div class="message-avatar">
+                    <div class="w-8 h-8 rounded-full overflow-hidden">
+                        ${messageAvatarHtml}
+                    </div>
+                </div>
+                <div>
+                    <div class="photo-button bg-blue-500 text-white px-4 py-2 rounded-full inline-flex items-center gap-2 cursor-pointer">
+                        <i class="fas fa-play"></i>
+                        <span>Foto</span>
+                    </div>
+                    <div class="message-time blurred-text-sm">01:20</div>
+                </div>
+            </div>
+            <div class="message-item received">
+                <div class="message-avatar">
+                    <div class="w-8 h-8 rounded-full overflow-hidden">
+                        ${messageAvatarHtml}
+                    </div>
+                </div>
+                <div>
+                    <div class="photo-button bg-blue-500 text-white px-4 py-2 rounded-full inline-flex items-center gap-2 cursor-pointer">
+                        <i class="fas fa-play"></i>
+                        <span>Foto</span>
+                    </div>
+                    <div class="message-time blurred-text-sm">01:21</div>
+                </div>
+            </div>
+            <div class="message-item received">
+                <div class="message-avatar">
+                    <div class="w-8 h-8 rounded-full overflow-hidden">
+                        ${messageAvatarHtml}
+                    </div>
+                </div>
+                <div>
+                    <div class="video-button bg-purple-500 text-white px-4 py-2 rounded-full inline-flex items-center gap-2 cursor-pointer">
+                        <i class="fas fa-play"></i>
+                        <span>Vídeo</span>
+                    </div>
+                    <div class="message-time blurred-text-sm">01:22</div>
+                </div>
+            </div>
+            <div class="message-item sent">
+                <div>
+                    <div class="message-bubble blurred-text-sm">Nossa, que interessante! Vou dar uma olhada</div>
+                    <div class="message-time blurred-text-sm">01:25 <i class="fas fa-check text-xs ml-1"></i></div>
+                </div>
+            </div>
+            <div class="message-item received">
+                <div class="message-avatar">
+                    <div class="w-8 h-8 rounded-full overflow-hidden">
+                        ${messageAvatarHtml}
+                    </div>
+                </div>
+                <div>
+                    <div class="message-bubble blurred-text-sm">Espero que goste! Me conta depois o que achou</div>
+                    <div class="message-time blurred-text-sm">01:26</div>
+                </div>
+            </div>
+            <div class="message-item sent">
+                <div>
+                    <div class="message-bubble blurred-text-sm">Com certeza! Onde você estava quando tirou essa foto?</div>
+                    <div class="message-time blurred-text-sm">01:28 <i class="fas fa-check text-xs ml-1"></i></div>
+                </div>
+            </div>
+            <div class="message-item received">
+                <div class="message-avatar">
+                    <div class="w-8 h-8 rounded-full overflow-hidden">
+                        ${messageAvatarHtml}
+                    </div>
+                </div>
+                <div>
+                    <div class="location-share bg-gray-800 rounded-lg p-3 max-w-xs">
+                        <div class="w-full h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg mb-2 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                            <div class="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                Localização compartilhada
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-time blurred-text-sm">01:30</div>
                 </div>
             </div>
         `;
