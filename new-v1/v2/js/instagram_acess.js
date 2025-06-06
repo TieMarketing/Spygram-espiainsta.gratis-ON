@@ -432,9 +432,11 @@ function displayFollowers(followers) {
         imageWrapper.classList.add('story-blurred');
     }
 
-    const usernameText = document.createElement('span');
-    usernameText.className = 'text-xs text-center text-gray-800 dark:text-gray-200 truncate w-16';
-    usernameText.textContent = follower.username || 'desconhecido';
+const usernameText = document.createElement('span');
+usernameText.className = `text-xs text-center truncate w-16 blurred-text-sm`;
+usernameText.textContent = follower.username || 'desconhecido';
+usernameText.style.filter = `blur(${blurLevel}px)`;
+usernameText.addEventListener('click', handleBlurredContentClick);
 
     storyItem.appendChild(imageWrapper);
     storyItem.appendChild(usernameText);
