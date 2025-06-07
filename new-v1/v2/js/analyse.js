@@ -420,12 +420,12 @@ if (searchResp.ok && Array.isArray(candidates) && candidates.length > 0) {
     // ===================================================================
     document.getElementById('profileSpinner').classList.add('hidden');
     document.getElementById('profileInitial').classList.remove('hidden');
-    alert('Nenhum perfil encontrado para esse nome de usuário.');
+    console.log('Nenhum perfil encontrado para esse nome de usuário.');
   } catch (error) {
     console.error('[fetchProfileImages] Erro completo:', error);
     document.getElementById('profileSpinner').classList.add('hidden');
     document.getElementById('profileInitial').classList.remove('hidden');
-    alert(`Erro ao carregar perfis: ${error.message || 'Tente novamente mais tarde.'}`);
+    console.log(`Erro ao carregar perfis: ${error.message || 'Tente novamente mais tarde.'}`);
   }
 }
 
