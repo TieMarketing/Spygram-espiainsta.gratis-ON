@@ -723,7 +723,7 @@ function showAccessDialog(message) {
         // Adicionar listener para fechar o overlay se necessário (ex: botão ou clique fora)
         // Exemplo: overlay.querySelector('.close-button').onclick = () => overlay.style.display = 'none';
     } else {
-        alert(message);
+        console.log(message);
     }
 }
 document.getElementById('continuePreviewBtn')?.addEventListener('click', () => {
