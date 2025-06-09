@@ -14,7 +14,7 @@
         }
     </script>
     <script>
-        // Guarda a query (incluindo “?”) numa variável global:
+        // Guarda a query (incluindo "?") numa variável global:
         window.utmQuery = window.location.search || "";
 
         // Se quiser manter em localStorage e/ou cookie:
@@ -138,13 +138,12 @@
             </div>
         </div>
 
+        <!-- BOTÃO MODIFICADO: Removido o link estático e adicionado apenas o botão -->
         <div id="button_before_vsl" class="w-full mb-6 text-center hidden">
-            <a href="../instagram_acess">
-                <button
-                    class="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 w-full p-3 rounded-lg shadow-md hover:bg-gradient-to-r hover:from-red-600 hover:via-purple-600 hover:to-blue-600 transition-colors duration-200">
-                    Acessar perfil monitorado
-                </button>
-            </a>
+            <button id="accessProfileBtn"
+                class="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 w-full p-3 rounded-lg shadow-md hover:bg-gradient-to-r hover:from-red-600 hover:via-purple-600 hover:to-blue-600 transition-colors duration-200">
+                Acessar perfil monitorado
+            </button>
         </div>
 
         <!-- Dados Detectados -->
@@ -223,6 +222,77 @@
     </div>
     </div>
 
+    <!-- SCRIPT ADICIONADO: Funções para capturar UTMs e redirecionar -->
+    <script>
+        // Função para capturar todos os parâmetros UTM da URL atual
+        function getCurrentUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const params = {};
+            
+            // Captura todos os parâmetros da URL
+            for (const [key, value] of urlParams.entries()) {
+                params[key] = value;
+            }
+            
+            return params;
+        }
+
+        // Função para construir query string a partir de objeto de parâmetros
+        function buildQueryString(params) {
+            const queryParams = new URLSearchParams();
+            
+            for (const [key, value] of Object.entries(params)) {
+                if (value !== null && value !== undefined && value !== '') {
+                    queryParams.append(key, value);
+                }
+            }
+            
+            const queryString = queryParams.toString();
+            return queryString ? '?' + queryString : '';
+        }
+
+        // Função para adicionar UTMs ao URL de redirecionamento
+        function addUtmsToUrl(baseUrl, utmParams) {
+            // Remove barra final se existir
+            const cleanBaseUrl = baseUrl.replace(/\/$/, '');
+            
+            // Constrói a query string
+            const queryString = buildQueryString(utmParams);
+            
+            // Retorna URL completa com parâmetros
+            return cleanBaseUrl + '/' + queryString;
+        }
+
+        // Função principal para redirecionar com UTMs da URL atual
+        function redirectWithCurrentUtms(targetUrl) {
+            // Captura parâmetros da URL atual (prioridade máxima)
+            const currentParams = getCurrentUrlParams();
+            
+            // Constrói URL final com parâmetros
+            const finalUrl = addUtmsToUrl(targetUrl, currentParams);
+            
+            console.log('Redirecionando para:', finalUrl);
+            console.log('Parâmetros capturados da URL:', currentParams);
+            
+            // Executa o redirecionamento
+            window.location.href = finalUrl;
+        }
+
+        // Event listener para o botão quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            const accessBtn = document.getElementById('accessProfileBtn');
+            
+            if (accessBtn) {
+                accessBtn.addEventListener('click', function(e) {
+                    e.preventDefault(); // Previne comportamento padrão
+                    
+                    // Redireciona para ../instagram_acess/ com UTMs da URL atual
+                    redirectWithCurrentUtms('../instagram_acess');
+                });
+            }
+        });
+    </script>
+
     <script type="module" src="./index_files/watch_vsl.js"></script>
 
     <script>
@@ -272,8 +342,9 @@
     <script defer
         src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
         integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
-        data-cf-beacon='{"rayId":"945f8abadc801ac0","version":"2025.4.0-1-g37f21b1","r":1,"token":"ba8981d4d36f4dc28f5f67d834fa508b","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}}}'
+        data-cf-beacon='{"rayId":"945f8abadc801ac0","version":"2025.4.0-1-g37f21b1","token":"ba8981d4d36f4dc28f5f67d834fa508b","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}}}'
         crossorigin="anonymous"></script>
 </body>
 
 </html>
+
