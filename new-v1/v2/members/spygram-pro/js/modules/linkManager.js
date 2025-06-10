@@ -10,7 +10,7 @@ const linkManager = {
     },
 
     // URL padrão de fallback
-    defaultPaymentUrl: 'https://go.wolfpayment.com.br/rstgvrdpl0',
+    defaultPaymentUrl: '',
 
     // Carregar config.json
     async loadConfig() {
