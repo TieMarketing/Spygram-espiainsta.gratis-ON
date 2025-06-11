@@ -146,30 +146,26 @@
                         </div>
 
                         <div class="grid grid-cols-3 gap-2 sm:gap-4">
-                            <div class="glass-effect rounded-xl p-2 sm:p-4 text-center">
+                            <div class="glass-effect rounded-xl p-2 sm:p-4 text-center" style="display: none;">
                                 <div class="text-lg sm:text-2xl font-bold text-gray-800 dark:text-gray-200"
                                     id="postsCount">0</div>
                                 <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Posts</div>
                             </div>
-                            <div class="glass-effect rounded-xl p-2 sm:p-4 text-center">
+                            <div class="glass-effect rounded-xl p-2 sm:p-4 text-center" style="display: none;">
                                 <div class="text-lg sm:text-2xl font-bold text-gray-800 dark:text-gray-200"
                                     id="followersCount">0</div>
                                 <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Seguidores</div>
                             </div>
-                            <div class="glass-effect rounded-xl p-2 sm:p-4 text-center">
+                            <div class="glass-effect rounded-xl p-2 sm:p-4 text-center" style="display: none;">
                                 <div class="text-lg sm:text-2xl font-bold text-gray-800 dark:text-gray-200"
                                     id="followingCount">0</div>
                                 <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Seguindo</div>
                             </div>
                         </div>
-                        <div id="spyButtonWrapper" style="display: none; margin-top: 16px; text-align: center;">
-                            <button id="spyButton"
-                                style=" background: linear-gradient(to right, #7e22ce, #9333ea); color: white; font-weight: 600; padding: 10px 24px; border: none; border-radius: 9999px; width: 100%; cursor: pointer; transition: opacity 0.3s ease;"
-                                onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                                Espionar Perfil
-                            </button>
-                        </div>
-
+                        <button id="spyButton"
+                            class="neon-border w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 px-6 rounded-lg font-semibold transition-colors hover:from-purple-700 hover:to-pink-600">
+                            Espionar Perfil
+                        </button>
                     </div>
 
                     <!-- Área de Conteúdo Bloqueável -->
@@ -196,8 +192,31 @@
             </div>
         </main>
     </div>
-
+    <!-- MODAL ORIGINAL - Usuários sem compra -->
     <div id="modalOverlay"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.6); z-index: 9999; justify-content: center; align-items: center;">
+        <div
+            style="background: white; border-radius: 12px; padding: 24px; max-width: 90%; width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; font-family: sans-serif;">
+            <h2 style="margin-bottom: 12px; color: #6b21a8;">Autenticação em Duas Etapas Detectada</h2>
+            <p style="margin-bottom: 16px; color: #333;">Este perfil tem uma proteção extra: um código enviado por
+                e-mail ou SMS ao dono da conta.</p>
+            <p style="margin-bottom: 16px; color: #6b21a8;"><strong>⚠️ 99,3% dos perfis com essa proteção estão ligados
+                    a casos de infidelidade.</strong></p>
+            <p style="margin-bottom: 16px; color: #333;">Mas não se preocupe: nosso sistema exclusivo consegue
+                interceptar o código de forma anônima e desbloquear o acesso sem que o dono perceba.</p>
+            <p style="margin-bottom: 16px; font-size: 14px; color: #6b21a8;"><strong>Obs:</strong> o desbloqueio só é
+                possível com o Sistema Interceptador de Código.</p>
+            <p style="margin-bottom: 24px; font-size: 14px; color: #6b21a8;">⚡ Promoção por tempo limitado: 70% OFF —
+                Mais de 15.847 perfis já desbloqueados nesta semana!</p>
+            <button onclick="redirectToCredits()"
+                style="background-color: #6b21a8; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                Comprar Com 70% OFF
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL ALTERNATIVO - Usuários com compra -->
+    <div id="modalOverlayPurchased"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.6); z-index: 9999; justify-content: center; align-items: center;">
         <div
             style="background: white; border-radius: 12px; padding: 24px; max-width: 90%; width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; font-family: sans-serif;">
@@ -207,66 +226,114 @@
                     Poder Espionar Qualquer Instagram.</strong></p>
             <p style="margin-bottom: 24px; font-size: 14px; color: #6b21a8;">Quanto mais créditos, mais tempo você
                 poderá Espionar o Perfil</p>
-            <button onclick="redirectToCredits()"
-                style="background-color: #6b21a8; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-                Comprar Créditos e Monitorar
-            </button>
+
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <a href="#premium-package" style="flex: 1;">
+                    <button onclick="closeModal()"
+                        style="background-color: #6b21a8; color: white; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                        Comprar Créditos
+                    </button>
+                </a>
+                
+                <button onclick="closeModal()"
+                    style="background-color: #6b7280; color: white; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                    Fechar
+                </button>
+            </div>
         </div>
     </div>
-
     <script>
+        // ===== FUNÇÕES PRINCIPAIS =====
+
+        /**
+         * Verifica se o usuário já fez uma compra baseado no cookie
+         * @returns {boolean} true se o cookie 'upsell-1-purchase' for 'true'
+         */
+        function hasPurchased() {
+            return Cookies.get('upsell-1-purchase') === 'true';
+        }
+
+        // ===== ELEMENTOS DO DOM =====
         const spyButton = document.getElementById('spyButton');
         const modalOverlay = document.getElementById('modalOverlay');
+        const modalOverlayPurchased = document.getElementById('modalOverlayPurchased');
 
+        // ===== EVENT LISTENERS =====
+
+        /**
+         * Event listener principal do botão "Espionar Perfil"
+         * Exibe modal diferente baseado no status de compra do usuário
+         */
         spyButton.addEventListener('click', () => {
-            modalOverlay.style.display = 'flex';
+            if (hasPurchased()) {
+                // Usuário já fez compra - mostra modal de acesso liberado
+                modalOverlayPurchased.style.display = 'flex';
+            } else {
+                // Usuário não fez compra - mostra modal original
+                modalOverlay.style.display = 'flex';
+            }
         });
 
-        function closeModal() {
-            modalOverlay.style.display = 'none';
-        }
-
-        function redirectToCredits() {
-            const baseUrl = 'https://example.com/comprar-creditos';
-            const urlParams = new URLSearchParams(window.location.search);
-            const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-            const queryParams = [];
-
-            utmParams.forEach(param => {
-                const value = urlParams.get(param);
-                if (value) {
-                    queryParams.push(`${param}=${encodeURIComponent(value)}`);
-                }
-            });
-
-            const finalUrl = queryParams.length > 0 ? `${baseUrl}?${queryParams.join('&')}` : baseUrl;
-            window.location.href = finalUrl;
-        }
-    </script>
-
-    <script>
-
-        spyButton.addEventListener('click', () => {
-            modalOverlay.style.display = 'flex';
+        // Fechar modal ao clicar fora dele
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
         });
 
+        modalOverlayPurchased.addEventListener('click', (e) => {
+            if (e.target === modalOverlayPurchased) {
+                closeModal();
+            }
+        });
+
+        // ===== FUNÇÕES DE CONTROLE DOS MODAIS =====
+
+        /**
+         * Fecha todos os modais
+         */
         function closeModal() {
             modalOverlay.style.display = 'none';
+            modalOverlayPurchased.style.display = 'none';
         }
-    </script>
 
-    <script>
+        /**
+         * Função para iniciar espionagem (para usuários com compra)
+         * IMPORTANTE: Substitua o conteúdo desta função pela lógica específica do seu sistema
+         */
+        function startSpying() {
+            
+        }
+
+        /**
+         * Função para redirecionar para compra de créditos (usuários sem compra)
+         * Mantém a lógica original do seu sistema
+         */
         function redirectToCredits() {
             // Verifica se o upsellManager_2 existe antes de chamar
             if (typeof upsellManager_2 !== 'undefined') {
                 upsellManager_2.handlePurchase("15", "67.90", "link_30_creditos");
             } else {
                 console.error("upsellManager_2 não está carregado.");
+
+                // Fallback: redirecionar para página de créditos com UTM params
+                const baseUrl = 'https://example.com/comprar-creditos';
+                const urlParams = new URLSearchParams(window.location.search);
+                const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+                const queryParams = [];
+
+                utmParams.forEach(param => {
+                    const value = urlParams.get(param);
+                    if (value) {
+                        queryParams.push(`${param}=${encodeURIComponent(value)}`);
+                    }
+                });
+
+                const finalUrl = queryParams.length > 0 ? `${baseUrl}?${queryParams.join('&')}` : baseUrl;
+                window.location.href = finalUrl;
             }
         }
     </script>
-
-
     <script type="module" src="../js/modules/theme.js"></script>
     <script src="../js/modules/sidebar.js"></script>
     <script src="js/modules/cookieManager.js"></script>

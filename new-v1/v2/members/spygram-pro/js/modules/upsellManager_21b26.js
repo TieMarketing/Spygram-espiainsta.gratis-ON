@@ -49,7 +49,7 @@ const upsellManager_2 = {
                     <div class="absolute -top-3 right-4 bg-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
                         Em Alta 🔥
                     </div>
-                    <div class="flex justify-between items-center mb-3">
+                    <div class="flex justify-between items-center mb-3" id="premium-package">
                         <div>
                             <h4 class="text-xl font-bold text-purple-700 dark:text-purple-300">Pacote Premium</h4>
                         </div>
