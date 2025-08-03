@@ -1,0 +1,12 @@
+.css-divulgacao-coneki p {
+/*max-width: 490px;*/
+vertical-align: middle;
+padding:2px;
+font-size: 10px !important;
+text-transform: uppercase !important;
+}
+.css-divulgacao-coneki a {
+	background: url(../images/criacao-de-sites-coneki-30-logo-18-69.png) no-repeat right 50%;
+	padding: 5px 69px 5px 5px !important
+}
+
