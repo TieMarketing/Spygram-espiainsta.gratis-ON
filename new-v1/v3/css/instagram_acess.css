@@ -1,0 +1,697 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Estilização de histórias */
+.story-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+}
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.01);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .glass-effect {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.story-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}
+
+.story-circle.new-story {
+    background: linear-gradient(45deg, #ff0000, #ff007f, #d62976);
+}
+
+.verified-story {
+    background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+}
+
+.story-image-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #222;
+    overflow: hidden;
+    position: relative;
+}
+
+.story-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.story-blur-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 1;
+    backdrop-filter: blur(2px);
+}
+
+.restricted-content {
+    border: 2px solid #ff0000;
+}
+
+/* Estilização de mensagens */
+.message-row {
+    padding: 12px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.message-row:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .message-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.message-row.unread {
+    background-color: rgba(0, 150, 255, 0.05);
+}
+
+.dark .message-row.unread {
+    background-color: rgba(0, 150, 255, 0.1);
+}
+
+.message-row.alert-message {
+    background-color: rgba(255, 100, 100, 0.1);
+}
+
+.dark .message-row.alert-message {
+    background-color: rgba(255, 100, 100, 0.2);
+}
+
+.message-row.severe-alert-message {
+    background-color: rgba(255, 50, 50, 0.15);
+}
+
+.dark .message-row.severe-alert-message {
+    background-color: rgba(255, 50, 50, 0.25);
+}
+
+/* Estilização de conteúdo borrado */
+.blurred-text {
+    position: relative;
+    filter: blur(4px);
+    user-select: none;
+}
+
+.restricted-text::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.severe-text {
+    color: #ff3333;
+    font-weight: 500;
+}
+
+/* Estilo para texto borrado em contatos bloqueados */
+.blurred-text-sm {
+    filter: blur(4px);
+    user-select: none;
+    position: relative;
+}
+
+.blurred-img-sm {
+    filter: blur(5px);
+    user-select: none;
+    position: relative;
+}
+
+/* Efeito de hover nos contatos bloqueados para despertar curiosidade */
+[class*="blurred-text"]:hover {
+    filter: blur(2px);
+    cursor: pointer;
+    transition: filter 0.3s ease;
+}
+
+/* Badge animado de contatos sensíveis */
+.absolute.-top-2 {
+    animation: pulse-shadow 2s infinite;
+}
+
+@keyframes pulse-shadow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(255, 0, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    }
+}
+
+/* Instagram header styling */
+.message-icon-container {
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.message-icon-container:hover {
+    transform: scale(1.1);
+}
+
+.message-icon {
+    transition: color 0.2s ease;
+}
+
+.message-icon-container:hover .message-icon {
+    color: #962fbf;
+}
+
+/* Animação de pulsação para o badge de notificação */
+.notification-badge.pulse-animation {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+    }
+    
+    70% {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 5px rgba(255, 0, 0, 0);
+    }
+    
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    }
+}
+
+/* Message highlight when clicked */
+.message-icon-flash {
+    animation: flashIcon 0.6s;
+}
+
+@keyframes flashIcon {
+    0%, 100% { color: inherit; }
+    50% { color: #d62976; }
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Media queries para responsividade */
+@media (min-width: 768px) {
+    .container {
+        max-width: 600px;
+    }
+}
+
+/* Botões interativos */
+button {
+    transition: all 0.2s ease;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Overlay modal */
+#limitedAccessOverlay {
+    backdrop-filter: blur(8px);
+}
+
+/* Direct Messages Modal */
+#directMessagesModal {
+    transition: opacity 0.3s ease;
+}
+
+#directMessagesModal .bg-white,
+#directMessagesModal .bg-gray-900 {
+    transition: transform 0.3s ease;
+}
+
+#directMessagesModal.hidden {
+    display: none !important;
+}
+
+#directBlurOverlay {
+    transition: opacity 0.3s ease;
+}
+
+.contact-row {
+    transition: background-color 0.2s ease;
+}
+
+.contact-row:active {
+    transform: scale(0.98);
+}
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Glass effect para o modal */
+.contact-row img {
+    transition: opacity 0.3s ease;
+}
+
+.contact-row:hover img {
+    opacity: 1;
+}
+
+/* Direct Messages View */
+#directMessagesView {
+    transition: opacity 0.3s ease;
+    animation: fadeIn 0.3s ease;
+}
+
+#directOverlay {
+    transition: opacity 0.3s ease;
+}
+
+/* Animações para a tela de direct messages */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.contact-row img {
+    transition: opacity 0.3s ease;
+}
+
+.contact-row:hover img {
+    opacity: 1;
+}
+
+.contact-row:active {
+    transform: scale(0.98);
+}
+
+/* Chat View Styles */
+#chatView {
+    animation: fadeIn 0.2s ease;
+}
+
+.chat-messages-container {
+    background-color: #000;
+    padding: 10px;
+}
+
+/* Message Bubbles */
+.message-item {
+    margin-bottom: 18px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-item.sent {
+    align-items: flex-end;
+}
+
+.message-item.received {
+    align-items: flex-start;
+}
+
+.message-bubble {
+    max-width: 75%;
+    padding: 10px 16px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.message-item.sent .message-bubble {
+    background-color: #0084ff;
+    color: white;
+}
+
+.message-item.received .message-bubble {
+    background-color: #333;
+    color: white;
+}
+
+.message-time {
+    font-size: 11px;
+    color: #888;
+    margin-top: 4px;
+}
+
+/* Media Messages */
+.photo-message-container, .video-message-container {
+    max-width: 70%;
+}
+
+.photo-button, .video-button {
+    background-color: #0074cc;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 18px;
+    font-size: 14px;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+/* Blocked Content */
+.message-item.blocked {
+    margin-top: 20px;
+    background-color: #252525;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.blocked-content-message {
+    color: #ff3b30;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.unlock-button, .view-blocked-button {
+    background-color: #000;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    width: 100%;
+}
+
+.blocked-messages-container {
+    background-color: #252525;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.blocked-messages-notice {
+    color: #ff3b30;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Conteúdo bloqueado tooltip */
+.fixed.top-1\/2.left-1\/2 {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fixed.top-1\/2.left-1\/2.show-message {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Contatos clicáveis */
+.clickable-contact {
+    position: relative;
+}
+
+.clickable-contact:after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #0095ff;
+    border-radius: 50%;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Estilo para contatos na lista de mensagens diretas */
+.contact-image-container {
+    overflow: hidden;
+    border-radius: 50%;
+    position: relative;
+}
+
+.contact-image-container img {
+    transition: all 0.3s ease;
+}
+
+.clickable-contact {
+    transition: background-color 0.2s ease;
+}
+
+.clickable-contact:hover {
+    background-color: rgba(200, 200, 200, 0.1);
+}
+
+/* Estilo para o backdrop-blur nos contatos bloqueados */
+.contact-image-container .backdrop-blur-sm {
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+/* Chat Input Bar */
+.chat-input-bar {
+    background-color: #000;
+}
+
+/* Spinner de carregamento para stories */
+#storiesLoadingSpinner {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Estilo para contas verificadas */
+.fa-check-circle {
+    background-color: white;
+    border-radius: 50%;
+    font-size: 9px;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    border: 1px solid white;
+}
+
+/* Classes para efeitos de blur em textos e imagens */
+.blurred-text-sm {
+    filter: blur(3px);
+}
+
+.blurred-text-md {
+    filter: blur(5px);
+}
+
+/* Animação para os badges */
+.badge-container {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Estilos para mensagens de chat */
+.message-item {
+    margin-bottom: 10px;
+    max-width: 80%;
+    clear: both;
+}
+
+.received {
+    float: left;
+}
+
+.sent {
+    float: right;
+}
+
+.message-bubble {
+    padding: 8px 12px;
+    border-radius: 18px;
+    display: inline-block;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.received .message-bubble {
+    background-color: #2a2a2a;
+    color: white;
+    border-bottom-left-radius: 4px;
+}
+
+.sent .message-bubble {
+    background-color: #0095f6;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message-time {
+    font-size: 0.7rem;
+    color: #8e8e8e;
+    margin-top: 2px;
+    margin-left: 4px;
+}
+
+.received .message-time {
+    text-align: left;
+}
+
+.sent .message-time {
+    text-align: right;
+}
+
+/* Estilos para botões de foto e vídeo */
+.photo-message-container, .video-message-container {
+    clear: both;
+}
+
+.photo-button, .video-button {
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+}
+
+.video-button {
+    background-color: #8134AF;
+}
+
+/* Localização compartilhada */
+.location-message-container {
+    clear: both;
+}
+
+.location-preview {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    width: 220px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(../assets/img/maps.png);
+    position: relative;
+    overflow: hidden;
+}
+
+.location-preview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    background-image: url(../assets/img/maps.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.location-label {
+    color: white;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+/* Mensagens bloqueadas */
+.blocked-messages-container {
+    clear: both;
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    width: 100%;
+}
+
+.blocked-messages-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8e8e8e;
+    margin-bottom: 10px;
+}
+
+.view-blocked-button {
+    background-color: transparent;
+    color: #0095f6;
+    border: 1px solid #0095f6;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Limpeza após mensagens flutuantes */
+.chat-messages::after {
+    content: "";
+    display: table;
+    clear: both;
+}

@@ -1,0 +1,18 @@
+{
+    "url_front": "https://go.perfectpay.com.br/PPU38CPPF83",
+    "utm_defaults": {
+        "utm_source": "null",
+        "utm_medium": "null",
+        "utm_campaign": "null"
+    },
+    "api_url": "https://espiainsta-invisivel.online/v1/v2/",
+    "links": {
+        "payment": "https://go.perfectpay.com.br/PPU38CPPMB6",
+        "upsell_traicao": "https://go.perfectpay.com.br/PPU38CPPMB8",
+        "upsell_recuperar": "https://go.perfectpay.com.br/PPU38CPPMBD",
+        "upsell_hackear": "https://go.perfectpay.com.br/PPU38CPPMBE",
+        "link_10_creditos": "https://go.perfectpay.com.br/PPU38CPP3DT",
+        "link_30_creditos": "https://go.perfectpay.com.br/PPU38CPP3E1",
+        "link_ilimited_creditos": "https://go.perfectpay.com.br/PPU38CPP3E3"
+    }
+}
